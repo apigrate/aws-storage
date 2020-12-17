@@ -1,0 +1,30 @@
+{
+  "name": "@apigrate/aws-storage",
+  "version": "1.0.0",
+  "description": "A convenience utility for storing and retrieving JSON data from AWS S3.",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/apigrate/aws-storage.git"
+  },
+  "keywords": [
+    "AWS",
+    "S3",
+    "json"
+  ],
+  "author": "Derek R. Gau",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/apigrate/aws-storage/issues"
+  },
+  "homepage": "https://github.com/apigrate/aws-storage#readme",
+  "peerDependencies": {
+    "aws-sdk": "2.*"
+  },
+  "devDependencies": {
+    "dotenv": "^8.2.0"
+  }
+}
