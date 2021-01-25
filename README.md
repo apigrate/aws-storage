@@ -1,6 +1,10 @@
 # aws-storage
 A simple convenience utility for storing and retrieving JSON data from AWS S3.
 
+You can `set` a JSON object to an S3 bucket for storage.
+
+When you subsequently `get` it from storage, the data is parsed into an object that is ready to use.
+
 # Usage
 
 ```javascript
@@ -28,5 +32,3 @@ const {AwsStorage} = require('.');
   }
 })()
 ```
-
-> Note, this library has a peer dependency on `aws-sdk` (specifically S3).

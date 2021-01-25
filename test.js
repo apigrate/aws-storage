@@ -6,11 +6,11 @@ const {AwsStorage} = require('.');
   let result = null;
   try{
     let content = {
-      foo: "bar",
-      count: 123
+      foo: "bork",
+      count: 1
     };
     
-    let storageTest = new AwsStorage(process.env.BUCKET_NAME, "test/content.json");
+    let storageTest = new AwsStorage(process.env.BUCKET_NAME, "test/bork.json");
     await storageTest.set(content);
 
     let retrieved = await storageTest.get();

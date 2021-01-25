@@ -1,5 +1,5 @@
 /*
-   Copyright 2020 Apigrate LLC
+   Copyright 2021 Apigrate LLC
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -13,8 +13,8 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-const {S3} = require('aws-sdk');
-const s3 = new S3();
+const {S3Client, GetObjectCommand, PutObjectCommand} = require('@aws-sdk/client-s3');
+const s3 = new S3Client();
 
 /**
  * Utility class to store JSON data in a secure AWS bucket.
@@ -35,15 +35,17 @@ class AwsStorage{
    */
   async get(){
     try {
-      let objectResult = await s3.getObject({
+
+      let command = new GetObjectCommand({
         Bucket: this.bucket,
         Key: this.key
-      }).promise();
-    
-      let creds = JSON.parse(objectResult.Body);
+      })
+      let objectResult = await s3.send(command);
+      let content = await streamToString(objectResult.Body);
+      let creds = JSON.parse(content);
       return creds;
     } catch(ex){
-      if(ex.code === 'NoSuchKey'){
+      if(ex.code === 'NoSuchKey'|| ex.$metadata.httpStatusCode === 404){
         return null;
       }
       console.error(ex);
@@ -56,15 +58,23 @@ class AwsStorage{
    * @param {object} data an object containing data data to store.
    */
   async set(data){
-    return await s3.putObject({
+    let command = new PutObjectCommand({
       Body: JSON.stringify(data),
       Bucket: this.bucket,
       Key: this.key,
       ServerSideEncryption: "AES256"
-    }).promise();
-
+    });
+    return await s3.send(command);
   }
+}
 
+function streamToString (stream) {
+  const chunks = []
+  return new Promise((resolve, reject) => {
+    stream.on('data', chunk => chunks.push(chunk))
+    stream.on('error', reject)
+    stream.on('end', () => resolve(Buffer.concat(chunks).toString('utf8')))
+  })
 }
 
 exports.AwsStorage = AwsStorage;
