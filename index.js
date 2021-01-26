@@ -45,7 +45,7 @@ class AwsStorage{
       let creds = JSON.parse(content);
       return creds;
     } catch(ex){
-      if(ex.code === 'NoSuchKey'|| ex.$metadata.httpStatusCode === 404){
+      if(ex.code === 'NoSuchKey'|| (ex.$metadata && ex.$metadata.httpStatusCode === 404)){
         return null;
       }
       console.error(ex);

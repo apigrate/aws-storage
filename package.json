@@ -1,6 +1,6 @@
 {
   "name": "@apigrate/aws-storage",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "A convenience utility for storing and retrieving JSON data from AWS S3.",
   "main": "index.js",
   "scripts": {
